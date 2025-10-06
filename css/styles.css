@@ -1,0 +1,792 @@
+/* ========================================
+   WHITE BIRCH ESTATES - CUSTOM STYLES
+   Production-Ready Seasonal Theme System
+   ======================================== */
+
+/* ========================================
+  CSS VARIABLES & COLOR SYSTEM
+  ======================================== */
+
+:root {
+  /* Typography */
+  --font-heading: "Merriweather", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Base Colors - Warm, natural tones for farm aesthetic */
+  --color-bg: #faf8f5;           /* Soft cream - main background */
+  --color-bg-light: #f5f2ed;     /* Lighter warm beige - alternating sections */
+  --color-text: #2d2d2d;         /* Softer black */
+  --color-text-muted: #6b6b6b;   /* Muted gray */
+  --color-white: #ffffff;        /* Pure white for cards/highlights */
+  --color-black: #000000;
+
+  /* Seasonal Accent Colors */
+  --color-accent-spring: #4CAF50;    /* Fresh green */
+  --color-accent-summer: #2E8BCE;    /* Sky blue */
+  --color-accent-fall: #C96B2A;      /* Warm orange */
+  --color-accent-winter: #5C9EAD;    /* Cool winter blue */
+
+  /* Active Accent (will be updated by JS based on season) */
+  --accent-current: var(--color-accent-summer);
+
+  /* Hero Background Images */
+  --hero-spring: url('../assets/hero-spring.jpg');
+  --hero-summer: url('../assets/hero-summer.jpg');
+  --hero-fall: url('../assets/hero-fall.jpg');
+  --hero-winter: url('../assets/hero-winter.jpg');
+
+  /* Active Hero (will be updated by JS) */
+  --hero-current: var(--hero-summer);
+
+  /* Shadows & Effects */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ========================================
+   SEASONAL THEME OVERRIDES
+   Apply different accent colors per season
+   ======================================== */
+
+html.theme-spring {
+  --accent-current: var(--color-accent-spring);
+  --hero-current: var(--hero-spring);
+}
+
+html.theme-summer {
+  --accent-current: var(--color-accent-summer);
+  --hero-current: var(--hero-summer);
+}
+
+html.theme-fall {
+  --accent-current: var(--color-accent-fall);
+  --hero-current: var(--hero-fall);
+}
+
+html.theme-winter {
+  --accent-current: var(--color-accent-winter);
+  --hero-current: var(--hero-winter);
+}
+
+/* ========================================
+   GLOBAL RESETS & BASE STYLES
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  line-height: 1.7;
+  background-color: var(--color-bg);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Seasonal text highlighting */
+mark {
+  background: transparent;
+  color: var(--accent-current);
+  font-weight: inherit;
+  padding: 0;
+}
+
+
+/* Accessibility */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent-current);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+
+/* Focus Styling */
+*:focus-visible {
+  outline: 3px solid var(--accent-current);
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+
+.navbar-brand {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-text) !important;
+}
+
+.navbar-brand:hover {
+  color: var(--accent-current) !important;
+}
+
+.navbar-brand i {
+  color: var(--accent-current);
+}
+
+.nav-link {
+  font-weight: 500;
+  color: var(--color-text) !important;
+  transition: color var(--transition-base);
+  position: relative;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--accent-current) !important;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--accent-current);
+  transition: width var(--transition-base);
+}
+
+.nav-link:hover::after,
+.nav-link:focus::after {
+  width: 80%;
+}
+
+/* Accent Button */
+.btn-accent {
+  background: var(--accent-current);
+  color: white;
+  border: none;
+  font-weight: 600;
+  transition: all var(--transition-base);
+}
+
+.btn-accent:hover,
+.btn-accent:focus {
+  background: var(--accent-current);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  filter: brightness(1.1);
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+
+.hero-section {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--hero-current);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* Fallback gradient if images not loaded */
+    background-color: #2E8BCE;
+    transition: background-image var(--transition-slow);
+}
+
+/* Subtle parallax effect (respects reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-background {
+    transform: translateZ(-1px) scale(1.1);
+    will-change: transform;
+  }
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+  z-index: 1;
+}
+
+.hero-section .container {
+  z-index: 2;
+}
+
+.veteran-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-subtitle {
+  max-width: 600px;
+}
+
+.display-1 {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+}
+
+/* ========================================
+   HIGHLIGHT CARDS
+   ======================================== */
+
+.highlight-card {
+  background: white;
+  border-radius: 15px;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+}
+
+.highlight-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-current);
+}
+
+.highlight-icon {
+  color: var(--accent-current);
+  transition: transform var(--transition-base);
+}
+
+.highlight-card:hover .highlight-icon {
+  transform: scale(1.1);
+}
+
+* ========================================
+   CAROUSEL CUSTOMIZATION
+   ======================================== */
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: var(--accent-current);
+  border-radius: 50%;
+  padding: 1.5rem;
+}
+
+.carousel-indicators button {
+  background-color: var(--accent-current);
+}
+
+/* ========================================
+   SEASONAL TIMELINE/ACTIVITIES
+   ======================================== */
+
+.seasonal-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.activity-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--accent-current);
+    transition: all var(--transition-base);
+}
+
+.activity-card:hover {
+    transform: translateX(10px);
+    box-shadow: var(--shadow-md);
+}
+
+.activity-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--accent-current);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.activity-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+}
+
+.activity-description {
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+/* ========================================
+   GALLERY & LIGHTBOX
+   ======================================== */
+
+.gallery-item {
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-item img {
+    transition: transform var(--transition-base);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.gallery-item:hover::after {
+    opacity: 1;
+}
+
+/* Lightbox Modal */
+.lightbox-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-close:hover {
+    background: var(--accent-current);
+    color: white;
+    transform: rotate(90deg);
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 90vh;
+    border-radius: 10px;
+    box-shadow: var(--shadow-lg);
+}
+
+/* ========================================
+   REVIEWS / TESTIMONIALS
+   ======================================== */
+
+.review-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+    border: 2px solid transparent;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-current);
+}
+
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    background: var(--accent-current);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.stars {
+    color: #ffc107;
+    font-size: 1rem;
+}
+
+.review-text {
+    font-style: italic;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+}
+
+/* ========================================
+   LOCATION SECTION
+   ======================================== */
+
+.map-placeholder {
+    min-height: 400px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* ========================================
+   CTA SECTION
+   ======================================== */
+
+.cta-section {
+    background: linear-gradient(135deg, var(--accent-current), rgba(0, 0, 0, 0.8));
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--hero-current);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    z-index: 0;
+}
+
+.cta-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+footer {
+    background: #212529;
+}
+
+.veteran-badge-footer {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.hover-accent:hover {
+    color: var(--accent-current) !important;
+}
+
+/* Season Picker */
+.season-picker {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.season-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.season-btn:hover,
+.season-btn:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+}
+
+.season-btn.active {
+    background: var(--accent-current);
+    border-color: var(--accent-current);
+}
+
+.season-btn i {
+    font-size: 1.5rem;
+}
+
+/* ========================================
+   STICKY BOOK CTA BUTTON
+   Managed by JavaScript
+   ======================================== */
+
+#stickyBookCTA {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 1000;
+    background: var(--accent-current);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+#stickyBookCTA:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    filter: brightness(1.1);
+}
+
+#stickyBookCTA.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sticky-cta-close {
+    margin-left: 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    transition: background var(--transition-fast);
+}
+
+.sticky-cta-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 991px) {
+    .hero-section {
+        min-height: 80vh;
+    }
+
+    #stickyBookCTA {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .display-1 {
+        font-size: 2.5rem;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .display-5 {
+        font-size: 1.75rem;
+    }
+
+    .seasonal-timeline {
+        grid-template-columns: 1fr;
+    }
+
+    .season-picker {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lightbox-close {
+        top: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.text-accent {
+    color: var(--accent-current) !important;
+}
+
+.bg-accent {
+    background-color: var(--accent-current) !important;
+}
+
+.border-accent {
+    border-color: var(--accent-current) !important;
+}
+
+/* ========================================
+   BOOTSTRAP OVERRIDES
+   Keep minimal and scoped
+   ======================================== */
+
+.btn-lg {
+    padding: 0.875rem 2rem;
+    font-size: 1.1rem;
+}
+
+.btn-sm {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+}
+
+.shadow-sm {
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.shadow {
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Override Bootstrap bg-light with warmer tone */
+.bg-light {
+    background-color: var(--color-bg-light) !important;
+}
+
+/* ========================================
+   LOADING STATE (OPTIONAL)
+   ======================================== */
+
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+    .navbar,
+    footer,
+    #stickyBookCTA,
+    .lightbox-modal {
+        display: none !important;
+    }
+
+    body {
+        color: black;
+        background: white;
+    }
+}
